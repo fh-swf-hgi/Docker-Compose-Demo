@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  jsapp1:
+   container_name: node1
+   build: ./node
+   networks:
+     - node_net
+  jsapp2:
+   container_name: node2
+   build: ./node
+   networks:
+     - node_net
+  proxy:
+    build: ./proxy
+    depends_on:
+      - jsapp1
+      - jsapp2
+    ports:
+      - 8088:80 
+    networks:
+      - node_net
+
+networks:
+  node_net:
+    driver: bridge
